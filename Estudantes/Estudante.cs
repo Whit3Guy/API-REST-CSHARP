@@ -19,5 +19,12 @@ namespace ApiCrudDotNET.Estudantes
             Ativo = true;
 
         }
+        // Retornará o novo nome
+        public void MudarNome(string novo_nome)
+        {
+            Nome = novo_nome;
+        }
+
+        
     }
 }
