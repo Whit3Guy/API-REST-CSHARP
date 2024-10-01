@@ -3,8 +3,17 @@ using ApiCrudDotNET.Estudantes;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+// Adicionar política de CORS
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowGetOnly",
+        builder =>
+        {
+            builder.AllowAnyOrigin()
+                   .AllowAnyMethod()
+                   .AllowAnyHeader();
+        });
+});
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -18,10 +27,11 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-// Configure the HTTP request pipeline.
+// Configurar CORS antes das rotas
 app.UseHttpsRedirection();
+app.UseCors("AllowGetOnly");  // Middleware CORS deve vir antes das rotas
 
-//Configurando rotas
+// Configurar rotas
 app.AddEstudantesEndpoint();
-app.Run();
 
+app.Run();
